@@ -1,13 +1,33 @@
 # To automate wifi scanning
-# TO DO: See which node supports Wireless
+# TO DO: See which node supports Wireless : DONE
 # Check if the link is up/down
 # If possible let the user login to wifi through this script
 
 declare -i x=0
 
-while [ $x -eq $x ]
-do
-sudo iwlist  wlan0 scanning > wifi.in
+#Scan eth0
+
+sudo iwlist eth0 scanning > eth0.in
+if [ $? -eq 0 ]
+then
+        echo "eth0 supports scanning"
+fi
+
+#Scan wlan0
+
+sudo iwlist wlan0 scanning > wlan0.in
+if [ $? -eq 0  ]
+then
+        echo "wlan0 supports scanning"
+fi
+
+
+
+
+#while [ $x -eq $x ]
+#do
+sudo iwlist   scanning > wifi.in
+val=$(sudo iwlist eth0  scanning )
 
 if grep -F "test" wifi.in
 	then
@@ -16,4 +36,4 @@ else
 	echo "Adhoc Networks Not Found"
 fi
 sleep 1
-done
+#done
