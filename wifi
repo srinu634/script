@@ -1,0 +1,19 @@
+# To automate wifi scanning
+# TO DO: See which node supports Wireless
+# Check if the link is up/down
+# If possible let the user login to wifi through this script
+
+declare -i x=0
+
+while [ $x -eq $x ]
+do
+sudo iwlist  wlan0 scanning > wifi.in
+
+if grep -F "test" wifi.in
+	then
+	echo "Add Hoc Networks Found"
+else
+	echo "Adhoc Networks Not Found"
+fi
+sleep 1
+done
