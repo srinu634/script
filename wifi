@@ -3,14 +3,15 @@
 # Check if the link is up/down
 # If possible let the user login to wifi through this script
 
-declare -i x=0
+declare -i flag=0 # -1 if none supports scanning, 0 if eth0 supports scanning, 1 if wlan0 supports scanning
 
 #Scan eth0
 
 sudo iwlist eth0 scanning > eth0.in
 if [ $? -eq 0 ]
 then
-        echo "eth0 supports scanning"
+         "eth0 supports scanning"
+	flag=flag+1
 fi
 
 #Scan wlan0
@@ -19,21 +20,26 @@ sudo iwlist wlan0 scanning > wlan0.in
 if [ $? -eq 0  ]
 then
         echo "wlan0 supports scanning"
+	flag=flag+2
 fi
 
+while [ $x -eq $x ]
+do
+	#sudo iwlist   scanning > wifi.in
+	
+	if [ $flag -eq 1 ];then
+		val=$(sudo iwlist eth0  scanning )
+	fi
+	
+	if [ $flag -eq 2  ];then
+		val=$(sudo iwlist wlan0 scanning)
+	fi
 
-
-
-#while [ $x -eq $x ]
-#do
-sudo iwlist   scanning > wifi.in
-val=$(sudo iwlist eth0  scanning )
-
-if grep -F "test" wifi.in
-	then
-	echo "Add Hoc Networks Found"
-else
-	echo "Adhoc Networks Not Found"
-fi
-sleep 1
-#done
+	if grep -F "test" wifi.in
+		then
+			echo "Add Hoc Networks Found"
+	else
+		echo "Adhoc Networks Not Found"
+	fi
+	sleep 1
+done
