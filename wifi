@@ -49,8 +49,13 @@ fi
 	then
 		echo "Ad-Hoc Networks Found"
 		echo "Invoking Ad-Hoc Finder"
-		cc find_adhocs.c "$val"
+		cc find_adhocs.c wifi.in  #A program to print all the SSID's of ad-hoc networks
 		./a.out
+	#echo "Enter the network name you want to connect to"
+	#read ssid
+	#echo "Enter password"
+	#read password
+	# sudo iwconfig "$val" essid "$ssid" key "$password"   
 	else
 		echo "Ad-Hoc Networks Not Found"
 	fi
