@@ -28,10 +28,7 @@ fi
 
 #while [ $x -eq $x ]    #Infinite Loop
 #do
-		
-	
-	
-	
+			
 	if [ $flag -eq 1 ];then
 		val="eth0"
 	fi
@@ -43,14 +40,32 @@ fi
 	
 	echo " Searchnig for an adhoc network"
 	sudo iwlist "$val" scanning > wifi.in
-	grep -nr  "Ad-Hoc" wifi.in
+	grep -B 4  "Ad-Hoc" wifi.in | grep "SSID" 
 
 	if [ $? -eq 0 ]
 	then
 		echo "Ad-Hoc Networks Found"
-		echo "Invoking Ad-Hoc Finder"
-		cc find_adhocs.c wifi.in  #A program to print all the SSID's of ad-hoc networks
-		./a.out
+	echo "Enter the network name you want to connect to"
+	read ssid
+	
+	#Setting up the network
+	
+	sudo ifconfig "$val" down 
+	sudo ifconfig "$val" up #So that any previous connection is lost 
+
+	sudo iw "$val" set type ibss # Independent BSS
+
+	sudo ifconfig "$val" 10.0.0.2 up #Add an IP to it
+
+	sudo iw wlan0 ibss join "$ssid" 2412 # Name + Frequency
+	echo "Network is setup"
+
+	sudo iwconfig wlan0 #Display the adhoc name
+
+ 	sudo iw wlan0 link
+	
+	#Network is Setup
+	
 	else
 		echo "Ad-Hoc Networks Not Found"
 	fi
