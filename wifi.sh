@@ -24,8 +24,6 @@ then
 fi
 
 
-
-
 #while [ $x -eq $x ]    #Infinite Loop
 #do
 			
@@ -50,8 +48,18 @@ fi
 	
 	#Setting up the network
 	
+	sudo iw wlan0 ibss leave # Disconnect from any previous ad-hoc network
+
+	if [ $? -eq 0 ]
+	then
+		echo "Disconnected from the previous network"
+	else
+		echo "No previous Network Found"
+	fi
+
+
 	sudo ifconfig "$val" down 
-	sudo ifconfig "$val" up #So that any previous connection is lost 
+	 
 
 	sudo iw "$val" set type ibss # Independent BSS
 
