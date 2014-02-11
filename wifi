@@ -47,9 +47,25 @@ fi
 		echo "Ad-Hoc Networks Found"
 	echo "Enter the network name you want to connect to"
 	read ssid
-	echo "Enter password"
-	read password
-	sudo iwconfig "$val" essid test "$password "
+	
+	#Setting up the network
+	
+	sudo ifconfig "$val" down 
+	sudo ifconfig "$val" up #So that any previous connection is lost 
+
+	sudo iw "$val" set type ibss # Independent BSS
+
+	sudo ifconfig "$val" 10.0.0.2 up #Add an IP to it
+
+	sudo iw wlan0 ibss join "$ssid" 2412 # Name + Frequency
+	echo "Network is setup"
+
+	sudo iwconfig wlan0 #Display the adhoc name
+
+ 	sudo iw wlan0 link
+	
+	#Network is Setup
+	
 	else
 		echo "Ad-Hoc Networks Not Found"
 	fi
